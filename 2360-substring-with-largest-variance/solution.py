@@ -1,37 +1,32 @@
 class Solution:
     def largestVariance(self, s: str) -> int:
 
-        res = 0
-        freq = {c: s.count(c) for c in set(s)}
+        f1 = 0
+        f2 = 0
 
-        for a in freq:
-            for b in freq:
-                if a == b:
-                    continue
+        max_var = 0
 
-                var = 0
-                has_b = False
-                remain_b = freq[b]
+        pairs = [(i, j) for i in set(s) for j in set(s) if i!=j]
 
-                for ch in s:
-                    if ch != a and ch != b:
-                        continue
-                    
-                    if ch == a:
-                        var += 1
-                    elif ch == b:
-                        var -= 1
-                        remain_b -= 1
-                        has_b = True
+        for _ in range(2):
+            for pair in pairs:
+                f1, f2 = 0,0
 
-                    if has_b:
-                        res = max(res, var)
-                    
-                    if var < 0 and remain_b > 0:
-                        var = 0
-                        has_b = False
+                for letter in s:
+                    if letter not in pair:continue
 
-        return res
+                    if letter == pair[0]: f1+=1
+
+                    if letter == pair[1]: f2+=1
+
+                    if f2 > f1: f1 = f2 = 0
+
+                    elif f1 > 0 and f2 > 0:
+                        max_var = max(f1-f2, max_var)
+
+            s = s[::-1]
+
+        return max_var
 
 
             
