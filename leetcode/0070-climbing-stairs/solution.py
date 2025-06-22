@@ -1,26 +1,15 @@
-class Solution(object):
-    def climbStairs(self, n):
-        """
-        :type n: int
-        :rtype: int
-        """
-        one, two = 1,1
+class Solution:
+    def climbStairs(self, n: int) -> int:
 
-        for i in range(n-1):
+        o, t = 1,1
 
-            temp = one
+        for _ in range(n-1):
 
-            one = one + two
-            two = temp
+            temp = t
+            t = o+ t
+            o = temp
 
-        return one
+        return t
 
-
-
-
-
-
-
-
-                    
-
+        
+        
