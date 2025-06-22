@@ -1,28 +1,27 @@
 # Definition for a binary tree node.
-# class TreeNode(object):
+# class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
 #         self.val = val
 #         self.left = left
 #         self.right = right
-class Solution(object):
-    def diameterOfBinaryTree(self, root):
-        """
-        :type root: Optional[TreeNode]
-        :rtype: int
-        """
+class Solution:
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
 
-        def dfs(root,res):
+        self.res = 0
 
-            if not root:
+        def traverse(node):
+
+            if not node:
                 return 0
             
-            left = dfs(root.left, res)
-            right = dfs(root.right, res)
+            left = traverse(node.left)
+            right = traverse(node.right)
 
-            res[0] = max(res[0], left + right)
+            self.res = max(self.res, left+right)
 
-            return 1 + max(left , right)
 
-        res = [0]
-        dfs(root,res)
-        return res[0]
+            return 1 + max(left, right)
+
+        traverse(root)
+
+        return self.res
