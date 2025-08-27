@@ -1,29 +1,39 @@
+from collections import defaultdict
+
 class Solution:
     def countOfSubstrings(self, word: str, k: int) -> int:
-
         n = len(word)
-        vowels = {"a", "e", "i", "o", "u"}
-        tot_subs = 0
+        vowel = {"a", "e", "i", "o", "u"}
 
-        for i in range(n):  # start of substring
-            seen_v = set()
-            cons = 0
+        def atleast(k):
 
-            for j in range(i, n):  # end of substring
+            left, right = 0, 0
+            consonants = 0
+            vowels = defaultdict(int)
+            cnt = 0
+            n = len(word)
 
-                if word[j] in vowels:
-                    seen_v.add(word[j])
+            while right < n:
+                if word[right] in vowel:
+                    vowels[word[right]] += 1
                 else:
-                    cons += 1
+                    consonants += 1
 
-                # only count when all vowels and exactly k consonants
-                if len(seen_v) == 5 and cons == k:
-                    tot_subs += 1
+                while consonants >= k and len(vowels) == 5:
+                    cnt += (n - right)
 
-                # pruning: if too many consonants, break
-                if cons > k:
-                    break
+                    if word[left] in vowel:
+                        vowels[word[left]] -= 1
+                        if vowels[word[left]] == 0:
+                            del vowels[word[left]]
+                    else:
+                        consonants -= 1
 
-        return tot_subs
-            
+                    left += 1
+
+                right += 1
+
+            return cnt
+
+        return atleast(k) - atleast(k + 1)
 
