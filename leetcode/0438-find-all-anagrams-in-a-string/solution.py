@@ -1,35 +1,40 @@
 class Solution:
     def findAnagrams(self, s: str, p: str) -> List[int]:
 
-        start = 0
-        an_count = Counter(p)
-        n = len(an_count)
-        s_len = len(p)
-        have = 0
-        res = []
+        p_count = Counter(p)
+        p_len = len(p)
 
+        start = 0
+        res = []
         state = defaultdict(int)
 
+        have = 0
 
         for end in range(len(s)):
 
             state[s[end]]+=1
 
-            if s[end] in an_count and state[s[end]] == an_count[s[end]]:
+            if s[end] in p_count and state[s[end]] == p_count[s[end]]:
+
                 have+=1
 
-            if end - start + 1 == s_len:
+            if end - start + 1 == p_len:
 
-                if have == n:
-
+                if have == len(p_count):
                     res.append(start)
-
-                if s[start] in an_count and state[s[start]] == an_count[s[start]]:
+                
+                if s[start] in p_count and state[s[start]] == p_count[s[start]]:
                     have-=1
-                state[s[start]] -=1               
+                state[s[start]]-=1
                 start+=1
-
+            
         return res
+
+                
+
+
+
+
 
 
 
