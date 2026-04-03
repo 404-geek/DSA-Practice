@@ -6,30 +6,33 @@ class Solution:
         r = len(nums) - 1
 
         while l <= r:
-            
-            pivot = (l+r) //2
 
-            if nums[pivot] == target:
-                return pivot
+            mid = (l + r) // 2
 
-            if nums[l] <= nums[pivot]:
+            if nums[mid] == target:
+                return mid
 
-                if nums[l] <= target < nums[pivot]:
+            if nums[l] <= nums[mid]:
 
-                    r = pivot -1
-                
+                if nums[l] <= target and target < nums[mid]:
+                    r = mid - 1
+
                 else:
-                    l = pivot +1
+                    l = mid + 1
 
             else:
 
-                if nums[pivot] < target <= nums[r]:
+                if nums[mid] < target and target <= nums[r]:
 
-                    l = pivot + 1
+                    l = mid + 1
                 else:
-                    r = pivot -1
+                    r = mid - 1
 
         return -1
+
+
+                
+
 
 
         
