@@ -1,28 +1,21 @@
-class Solution(object):
-    def subsets(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[List[int]]
-        """
-        res, sol = [], []
-        n = len(nums)
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
 
-        def dfs(i):
+        res = []
 
+        def backtrack(i, path):
 
-            if i == n:
-                res.append(sol[:])
-                return
+            res.append(path[:])
 
-            dfs(i+1)
+            for n in range(i, len(nums)):
 
-            sol.append(nums[i])
-            dfs(i+1)
-            sol.pop()
+                path.append(nums[n])
+                backtrack(n+1, path)
+                path.pop()
 
-        dfs(0)
+        
+        backtrack(0,[])
+
         return res
-            
-
 
         
