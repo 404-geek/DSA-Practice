@@ -1,22 +1,17 @@
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-
-        res = defaultdict(list)
+        map = defaultdict(list)
 
         for s in strs:
-            a = [0] * 26
 
-            for ch in s:
-
-                a[ord(ch) - ord('a')]+=1
-
-            res[tuple(a)].append(s)
-
-        return list(res.values())
-
-                
-
-
-
-
+            t = 0
             
+            count = [0]*26
+            for c in s:
+                count[ord(c) - ord('a')] += 1
+
+            map[tuple(count)].append(s)
+
+
+        return list(map.values())
+
