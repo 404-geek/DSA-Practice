@@ -1,32 +1,39 @@
+from collections import Counter
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
 
-        t = Counter(t)
-        n = len(t)
-        trav = defaultdict(int)
+        n_map = Counter(t)
+        need = len(n_map)
+        n = len(s)
         have = 0
 
-        start = 0
-        min_len = float(inf)
-        min_str = ""
+        ans = ""
 
-        for end in range(len(s)):
-            c = s[end]
-            trav[c]+=1
+        res = defaultdict(int)
 
-            if c in t and trav[c] == t[c]:
+        i = 0
+
+        for j in range(n):
+
+            res[s[j]] += 1
+
+            if s[j] in n_map and res[s[j]] == n_map[s[j]]:
                 have+=1
+                
+            while have == need:
 
-            while have == n:
-
-                if end - start + 1 < min_len:
-                    min_str = s[start:end+1]
-                    min_len = end - start + 1
-                    
-                trav[s[start]]-=1
-                if s[start] in t and trav[s[start]] < t[s[start]]: 
+                if ans == "" or j - i + 1 < len(ans):
+                    ans = s[i : j + 1]
+                
+                res[s[i]]-=1
+                if s[i] in n_map and res[s[i]] < n_map[s[i]]:
                     have-=1
-                start+=1                    
+                i+=1
 
-        return min_str
+        return ans
 
+
+
+
+        
+        
