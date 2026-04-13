@@ -1,31 +1,37 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
 
-        pre = {i:[] for i in range(numCourses)} 
-                
-        for crse,preq in prerequisites:
-            pre[crse].append(preq)
-        
-        finished = set() 
+        adj = defaultdict(list)
 
-        def dfs(crs):
+        for a, b in prerequisites:
 
-            if crs in finished:
+            adj[b].append(a)
+
+        status = [0] * numCourses
+
+        def traverse(a):
+
+            if status[a] == 1:
                 return False
-            if pre[crs] == []:
+
+            if status[a] == 2:
                 return True
 
-            finished.add(crs)
+            status[a] = 1
 
-            for crse in pre[crs]:
-                if not dfs(crse): return False
+            for n in adj[a]:
+                if not traverse(n):
+                    return False
             
-            finished.remove(crs)
-            pre[crs] = []
+            status[a] = 2
             return True
+            
+        for i in range(numCourses):
+            if not traverse(i):
+                return False
 
-        for crs in range(numCourses):
-            if not dfs(crs): return False
         return True
 
-        
+
+
+
