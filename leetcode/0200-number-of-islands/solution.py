@@ -1,37 +1,40 @@
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
 
-        cols = len(grid[0])
-        rows = len(grid)
-        islands = 0
-        vis = set()
+        r_len = len(grid)
+        c_len = len(grid[0])
+        island = 0
 
-        def dfs(i,j):
+        visited_set = set()
+        
+        def dfs(r,c):
 
-            if (i,j) in vis:
+            if (r,c) in visited_set:
                 return
 
-            vis.add((i,j))
+            visited_set.add((r,c))
 
-            move = [(0,1), (1,0), (-1,0), (0,-1)]
+            moves = [[1,0] , [-1,0], [0,1], [0,-1]]
 
-            for r,c in move:
+            for i, j in moves:
 
-                nc = j + c
-                nr = i + r
+                nr = r + i
+                nc = c + j
 
-                if  0 <= nc < cols and 0 <= nr < rows and grid[nr][nc] == "1" and (nr,nc) not in vis:
-
+                if 0 <= nr < r_len and 0 <= nc < c_len and grid[nr][nc] == "1":
                     dfs(nr,nc)
 
-        for i in range(rows):
-            for j in range(cols):
-                if (i,j) not in vis and grid[i][j] == "1":
 
-                    dfs(i,j)
-                    islands+=1
+        for r in range(r_len):
+            for c in range(c_len):
 
-        return islands
+                if grid[r][c] == "1" and (r,c) not in visited_set:
+                    dfs(r,c)
+                    island+=1
+        
+        return island
 
-            
+
+
+
         
