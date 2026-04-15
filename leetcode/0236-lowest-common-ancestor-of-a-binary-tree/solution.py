@@ -8,23 +8,21 @@
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
 
-        def LCA(node):
+        def traverse(node):
 
-            if node == None:
-                return None
-            elif node == p or node == q:
+            if node == None or node == p or node == q:
                 return node
 
-            node1 = LCA(node.left)
-            node2 = LCA(node.right)
+            a = traverse(node.left)
+            b = traverse(node.right)
 
-            if node1 and node2:
+            if a and b:
                 return node
 
-            return node1 or node2
+            return a if a else b
 
+        return traverse(root)
 
-        return LCA(root)
-
-
-
+            
+        
+        
