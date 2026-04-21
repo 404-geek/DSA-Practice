@@ -1,20 +1,25 @@
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+
         res = []
-        stack = [(0, [], 0)]  # (index, current path, current sum)
 
-        while stack:
-            i, path, total = stack.pop()
+        def backtrack(ind, target, path):
 
-            if total == target:
-                res.append(path)
-                continue
-            if total > target:
-                continue
+            if target == 0:
+                res.append(path[:])
+                return
 
-            for j in range(i, len(candidates)):
-                stack.append((j, path + [candidates[j]], total + candidates[j]))
+            if ind == len(candidates) or target < 0:
+                return
+             
+            path.append(candidates[ind])
+            backtrack(ind, target-candidates[ind], path)
+            path.pop()
 
+            backtrack(ind + 1, target, path)
+
+        backtrack(0, target, [])
         return res
 
 
+        
