@@ -1,44 +1,52 @@
-from typing import List
-
 class Solution:
     def fullJustify(self, words: List[str], maxWidth: int) -> List[str]:
 
-        def justify(str_words, total_chars, is_last_line=False):
-            if len(str_words) == 1 or is_last_line:
-                # Left-justified
-                line = " ".join(str_words)
+        line_letters = 0
+        line_words =[]
+        res = []
+
+        def justify_text(words, letter, end_line=False):
+            
+            if end_line or len(words) == 1:
+                line = " ".join(words)
                 return line + " " * (maxWidth - len(line))
 
-            spaces_to_fill = maxWidth - total_chars
-            gaps = len(str_words) - 1
-            base_space = spaces_to_fill // gaps
-            extra_space = spaces_to_fill % gaps
+            left_spaces = maxWidth - letter
 
-            res = ""
-            for i in range(len(str_words)):
-                res += str_words[i]
-                if i < gaps:
-                    # Extra spaces go to the leftmost gaps
-                    res += " " * (base_space + (1 if i < extra_space else 0))
-            return res
+            spaces_present = len(words) - 1
 
-        res = []
-        i = 0
-        curr_line = []
-        curr_len = 0
+            rem = left_spaces // spaces_present
+            extra = left_spaces % spaces_present
 
-        while i < len(words):
-            word = words[i]
-            if curr_len + len(curr_line) + len(word) > maxWidth:
-                # len(curr_line) is number of gaps between words
-                res.append(justify(curr_line, curr_len))
-                curr_line = []
-                curr_len = 0
-            curr_line.append(word)
-            curr_len += len(word)
-            i += 1
+            line = ""
+            for i in range(spaces_present):
+                line+= words[i]
+                line+= " " * (rem + (1 if i < extra else 0))
+            
+            line+=words[-1]
+            return line
 
-        # Last line → left-justified
-        res.append(justify(curr_line, curr_len, is_last_line=True))
+        
+        for word in words:
+
+            if line_letters + len(word) + len(line_words) <= maxWidth:
+                line_letters+= len(word)
+                line_words.append(word)
+            else:
+                res.append(justify_text(line_words, line_letters))
+                line_words = [word]
+                line_letters = len(word)
+        
+        res.append(justify_text(line_words, line_letters, True))
         return res
 
+
+
+        
+                
+
+
+
+
+
+        
