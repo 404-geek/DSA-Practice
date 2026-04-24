@@ -1,37 +1,38 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
 
-        adj = defaultdict(list)
+        adj = {}
 
-        for a, b in prerequisites:
+        for a,b in prerequisites:
+            if adj.get(a):
+                adj[a].append(b)
+            else:
+                adj[a] = [b]
 
-            adj[b].append(a)
+        state = [0] * numCourses
 
-        status = [0] * numCourses
+        def move(i):
 
-        def traverse(a):
-
-            if status[a] == 1:
+            if state[i] == 1:
                 return False
-
-            if status[a] == 2:
+            if state[i] == 2:
                 return True
 
-            status[a] = 1
+            state[i] = 1
 
-            for n in adj[a]:
-                if not traverse(n):
+            for req in adj.get(i, []):
+                if not move(req):
                     return False
-            
-            status[a] = 2
+
+            state [i] = 2
             return True
-            
+        
+
         for i in range(numCourses):
-            if not traverse(i):
+            if not move(i):
                 return False
 
+
         return True
-
-
 
 
