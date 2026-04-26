@@ -2,24 +2,28 @@ class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
 
         res = []
+        n = len(candidates)
 
-        def backtrack(ind, target, path):
+        def ssum(i, target, path):
 
             if target == 0:
                 res.append(path[:])
                 return
-
-            if ind == len(candidates) or target < 0:
+            
+            if i == n or target < 0:
                 return
-             
-            path.append(candidates[ind])
-            backtrack(ind, target-candidates[ind], path)
+
+            path.append(candidates[i])
+            ssum(i, target - candidates[i], path)
             path.pop()
 
-            backtrack(ind + 1, target, path)
+            ssum(i+1, target, path)
 
-        backtrack(0, target, [])
+        ssum(0, target, [])
+
         return res
 
+            
+            
 
-        
+
