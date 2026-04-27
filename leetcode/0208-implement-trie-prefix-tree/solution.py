@@ -1,47 +1,37 @@
-class Trienode:
-
-    def __init__(self):
-        self.children = {}
-        self.is_end = False
-
 class Trie:
 
     def __init__(self):
-        self.root = Trienode()
 
+        self.map = defaultdict(Trie)
+        self.end = False
+        
     def insert(self, word: str) -> None:
-        node = self.root
+        node = self
         for ch in word:
-            if ch not in node.children:
-                node.children[ch] = Trienode()
-            node = node.children[ch]
-            
-        node.is_end = True
+            node = node.map[ch]
+        node.end = True
 
     def search(self, word: str) -> bool:
-
-        node = self.root
-
+        node = self
         for ch in word:
-
-            if ch not in node.children:
+            if ch in node.map:
+                node = node.map[ch]
+            else:
                 return False
-            
-            node = node.children[ch]
 
-        return node.is_end
-        
+        return True if node.end == True else False
 
     def startsWith(self, prefix: str) -> bool:
 
-        node = self.root
-
+        node = self
         for ch in prefix:
-            if ch not in node.children:
+            if ch in node.map:
+                node = node.map[ch]
+            else:
                 return False
-            node= node.children[ch]
 
         return True
+
         
 
 
