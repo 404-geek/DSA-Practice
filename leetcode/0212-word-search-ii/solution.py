@@ -1,56 +1,55 @@
-class TrieNode:
-
-    def __init__ (self):
-
-        self.children = defaultdict(TrieNode)
+class TrieNode():
+    def __init__(self):
+        self.children = {}
         self.word = None
 
 class Solution:
-
-    def addwords(self, words):
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
 
         root = TrieNode()
 
         for word in words:
-            node= root
-
+            node = root
             for ch in word:
+                if ch not in node.children:
+                    node.children[ch] = TrieNode()
                 node = node.children[ch]
-            node.word =  word
-        return root
+            node.word = word
+        
+        rows = len(board)
+        cols = len(board[0])
 
+        res = []
 
-    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        def dfs(r,c,node):
 
-        root = self.addwords(words)
-        result = []
-        rows, cols = len(board), len(board[0])
-
-        def dfs(r, c, node):
             ch = board[r][c]
+            
             if ch not in node.children:
                 return
-            child = node.children[ch]
 
-            if child.word:
-                result.append(child.word)
-                child.word = None  # Avoid duplicates
+            node = node.children[ch]
 
-            board[r][c] = "#"  # mark visited
-            for dr, dc in [(-1,0), (1,0), (0,-1), (0,1)]:
-                nr, nc = r + dr, c + dc
+            if node.word:
+                res.append(node.word)
+                node.word = None
+
+            board[r][c] = "#"
+
+            for dr, dc in [(1,0), (-1,0), (0,1), (0,-1)]:
+                nr = dr + r
+                nc = dc + c
+
                 if 0 <= nr < rows and 0 <= nc < cols and board[nr][nc] != "#":
-                    dfs(nr, nc, child)
-            board[r][c] = ch  # restore after backtrack
+                    dfs(nr, nc, node)
 
-        for i in range(rows):
-            for j in range(cols):
-                dfs(i, j, root)
-
-        return result
-
-
-
-            
+            board[r][c] = ch
         
-        
+
+        for r in range(rows):
+            for c in range(cols):
+                if board[r][c] in root.children:
+                    ch = board[r][c]
+                    dfs(r,c, root)
+
+        return res
