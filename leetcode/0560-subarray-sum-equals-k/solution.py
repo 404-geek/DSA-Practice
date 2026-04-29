@@ -2,25 +2,18 @@ class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:
 
         map = {0:1}
-        curr = 0
+        curr_sum = 0
         ans = 0
 
-        for r in nums:
+        for n in nums:
 
-            curr+=r
+            curr_sum+=n
 
-            ans+= map.get(curr - k, 0)
-            
-            map[curr] = map.get(curr, 0) + 1
-        
+            ans += map.get(curr_sum - k, 0)
+
+            map[curr_sum] = map.get(curr_sum, 0) + 1
+
         return ans
-                
 
 
 
-
-
-
-            
-
-        
