@@ -1,27 +1,20 @@
 class Solution:
     def checkSubarraySum(self, nums: List[int], k: int) -> bool:
+        
+        run_sum = 0
 
-        curr_sum = 0
-        store = {0: -1}
+        map = {0:-1}
 
-        for i, val in enumerate(nums):
+        for i, v in enumerate(nums):
 
-            curr_sum+=val
+            run_sum += v
 
-            rem = curr_sum % k if k != 0 else curr_sum
+            l = run_sum % k
 
-            if rem in store:
-                if i - store[rem] >= 2:
+            if l in map:
+                if i - map[l] >= 2:
                     return True
-            
             else:
-                store[rem] = i 
+                map[l] = i
         
         return False
-
-
-
-            
-
-
-        
