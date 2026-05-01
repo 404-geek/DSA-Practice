@@ -1,11 +1,15 @@
 class Solution:
     def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
 
-        last_seen = {}
+        map = {}
 
-        for i in range(len(nums)):
-            if nums[i] in last_seen and i - last_seen[nums[i]] <= k:
-                return True
-            last_seen[nums[i]] = i
+        for i,n in enumerate(nums):
+            if n in map:
+                if i - map[n] <= k:
+                    return True
+            map[n] = i
 
         return False
+            
+
+        
