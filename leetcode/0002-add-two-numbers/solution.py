@@ -6,45 +6,30 @@
 class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
 
-        op = 1
-        no1 = 0
-        no2 = 0
-        while l1 or l2:
+        carry = 0
+        
+        head = ListNode()
+
+        node = head
+
+        while l1 or l2 or carry:
+
+            v1 = l1.val if l1 else 0
+            v2 = l2.val if l2 else 0
+
+            total = carry + v1 + v2
+            digit = total % 10
+            carry = total // 10
+
+            node.next = ListNode(digit)
+            node = node.next
 
             if l1:
-                no1 += l1.val * op
-                l1 = l1.next
-            
+                l1  = l1.next
             if l2:
-                no2 += l2.val * op
-                l2 = l2.next
+                l2  = l2.next
 
-            op *= 10
+        return head.next
 
 
-        n = no1 + no2
 
-        if n == 0:
-            return ListNode(0)
-        
-        head = None
-        tail = None
-
-        while n > 0:
-            digit = n % 10
-            node = ListNode(digit)
-
-            if head is None:
-                head = tail = node
-            else:
-                tail.next = node
-                tail = node
-
-            n //= 10
-        return head
-
-        
-            
-
-            
-        
