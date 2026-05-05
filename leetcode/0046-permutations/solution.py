@@ -1,18 +1,22 @@
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
 
+        n = len(nums)
+
         res = []
+        
+        def traverse(i):
 
-        def backtrack(path, rem):
-
-            if not rem:
-                res.append(path[:])
+            if i == n:
+                res.append(nums[:])
                 return
 
-            for i in range(len(rem)):
-                
-                backtrack(path + [rem[i]], rem[:i] + rem[i+1:])
+            for j in range(i, n):
 
-        backtrack([], nums)
-        
+                nums[i], nums[j] = nums[j], nums[i]
+                traverse(i+1)
+                nums[j], nums[i] = nums[i], nums[j]
+
+        traverse(0)
+
         return res
