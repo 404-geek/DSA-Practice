@@ -4,26 +4,38 @@ class Solution:
         res = []
         n = len(candidates)
 
-        def ssum(i, target, path):
+        def traverse(i, su, arr):
 
-            if target == 0:
-                res.append(path[:])
+            if su == 0:
+                res.append(arr[:])
                 return
             
-            if i == n or target < 0:
+            if i == n:
                 return
 
-            path.append(candidates[i])
-            ssum(i, target - candidates[i], path)
-            path.pop()
+            if candidates[i] <= su:
+                arr.append(candidates[i])
+                traverse(i, su - candidates[i], arr)
+                arr.pop()
 
-            ssum(i+1, target, path)
+            traverse(i+1, su, arr)
 
-        ssum(0, target, [])
+
+        traverse(0, target, [])
 
         return res
 
-            
-            
 
 
+
+        
+
+
+
+        
+
+
+
+
+        
+        
