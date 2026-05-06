@@ -2,29 +2,28 @@ class Solution:
     def partition(self, s: str) -> List[List[str]]:
 
         n = len(s)
+
         res = []
 
-        def check_palindrome(path):
+        def check_palindrome(s):
+            return s == s[::-1]
 
-            return path == path[::-1]
-            
+        def traverse(a, path):
 
-        def backtrack(rem_str, path):
-
-            if rem_str == "":
+            if a == n:
                 res.append(path[:])
                 return
-                
-            p = len(rem_str)
 
-            for i in range(p):
-                part = rem_str[:i+1]
+            for b in range(a, n):
+
+                part = s[a:b+1]
+
                 if check_palindrome(part):
                     path.append(part)
-                    backtrack(rem_str[i+1:], path)
+                    traverse(b+1, path)
                     path.pop()
 
-        backtrack(s, [])
+        traverse(0,[])
 
         return res
 
@@ -32,4 +31,5 @@ class Solution:
 
 
 
+            
         
