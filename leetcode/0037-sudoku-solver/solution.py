@@ -1,49 +1,75 @@
-from typing import List
-
 class Solution:
     def solveSudoku(self, board: List[List[str]]) -> None:
-        rows = [set() for _ in range(9)]
-        cols = [set() for _ in range(9)]
+        """
+        Do not return anything, modify board in-place instead.
+        """
+
+        row_set = [set() for _ in range(9)]
+        col_set = [set() for _ in range(9)]
         boxes = [set() for _ in range(9)]
-        empties = []
+        empty_idx = []
 
         for r in range(9):
             for c in range(9):
-                if board[r][c] == ".":
-                    empties.append((r, c))
+                if board[r][c] == ".": 
+                    empty_idx.append((r,c))
                 else:
-                    num = board[r][c]
-                    box = (r // 3) * 3 + (c // 3)
-                    rows[r].add(num)
-                    cols[c].add(num)
-                    boxes[box].add(num)
+                    val = board[r][c]
+                    row_set[r].add(val)
+                    col_set[c].add(val)
+                    boxes[(r // 3) * 3 + (c // 3)].add(val)
 
-        def solve(i: int) -> bool:
-            if i == len(empties):
+        # def check(ch, r,c):
+
+        #     #Row check
+        #     for i in range(9):
+        #         if board[r][i] == ch:
+        #             return False
+
+        #     #Col check
+        #     for i in range(9):
+        #         if board[i][c] == ch:
+        #             return False
+
+        #     #3x3 matrix check
+        #     b_row = (r // 3) * 3
+        #     c_row = (c // 3) * 3
+
+        #     for i in range(b_row, b_row+3):
+        #         for j in range(c_row, c_row + 3):
+        #             if board[i][j] == ch:
+        #                 return False
+
+        #     return True
+
+
+        def traverse(i):
+
+            if i == len(empty_idx):
                 return True
 
-            r, c = empties[i]
+            r, c = empty_idx[i]
             box = (r // 3) * 3 + (c // 3)
 
-            for n in range(1, 10):
-                num = str(n)
+            for ch in "123456789":
 
-                if num in rows[r] or num in cols[c] or num in boxes[box]:
-                    continue
+                if ch not in row_set[r] and ch not in col_set[c] and ch not in boxes[box]:
+                    board[r][c] = ch
+                    row_set[r].add(ch)
+                    col_set[c].add(ch)
+                    boxes[box].add(ch)
 
-                board[r][c] = num
-                rows[r].add(num)
-                cols[c].add(num)
-                boxes[box].add(num)
-
-                if solve(i + 1):
-                    return True
-
-                board[r][c] = "."
-                rows[r].remove(num)
-                cols[c].remove(num)
-                boxes[box].remove(num)
+                    if traverse(i+1):
+                        return True
+                    
+                    board[r][c] = "."
+                    row_set[r].remove(ch)
+                    col_set[c].remove(ch)
+                    boxes[box].remove(ch)
 
             return False
 
-        solve(0)
+        traverse(0)
+                                
+
+        
