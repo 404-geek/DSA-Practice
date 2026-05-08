@@ -1,17 +1,25 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
 
+        wordDict = set(wordDict)
         n = len(s)
+
+        @cache
+        def traverse(i):
+
+            if i == n:
+                return True
+
+            for word in wordDict:
+                if s.startswith(word, i):
+                    if traverse(i + len(word)):
+                        return True
+
+            return False
+
+        return traverse(0) 
+            
+
+
+
         
-        dp = [False] *  (n + 1)
-        dp[n] = True
-
-        for i in range(n-1, -1, -1):
-
-            for w in wordDict:
-                a = len(w)
-
-                if s[i: i + a] == w and dp[i+a]:
-                    dp[i] = True
-
-        return dp[0]
