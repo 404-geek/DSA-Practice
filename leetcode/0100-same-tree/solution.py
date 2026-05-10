@@ -7,22 +7,17 @@
 class Solution:
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
 
-        def traverse(root_p, root_q):
+        def same(p,q):
 
-            if not root_p and not root_q:
+            if not p and not q:
                 return True
-            if not root_p or not root_q:
+
+            if not p or not q:
                 return False
-            if root_p.val != root_q.val:
+
+            if p.val != q.val:
                 return False
 
-            return traverse(root_p.left, root_q.left) and traverse(root_p.right, root_q.right)
-            
-        return traverse(p, q)
-                
-            
+            return same(p.left, q.left) and same(p.right, q.right)
 
-            
-
-
-        
+        return same(p,q)
