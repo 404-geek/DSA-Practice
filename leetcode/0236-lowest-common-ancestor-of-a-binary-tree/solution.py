@@ -8,21 +8,28 @@
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
 
-        def traverse(node):
+        if root == None or root == p or root == q:
+            return root
 
-            if node == None or node == p or node == q:
-                return node
+        l = self.lowestCommonAncestor(root.left, p, q)
+        r = self.lowestCommonAncestor(root.right, p, q)
 
-            a = traverse(node.left)
-            b = traverse(node.right)
+        if l == None:
+            return r
+        elif r == None:
+            return l
 
-            if a and b:
-                return node
+        else:
+            return root
 
-            return a if a else b
+        
 
-        return traverse(root)
+
 
             
-        
+
+
+
+
+
         
