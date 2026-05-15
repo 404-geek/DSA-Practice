@@ -1,14 +1,12 @@
-class Solution(object):
-    def singleNumber(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+
         val = 0
-        for i in nums:
 
-            val ^= i
+        for n in nums:
 
-        return val
+            val ^= n
+
+        return val 
 
         
