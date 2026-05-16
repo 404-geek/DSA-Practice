@@ -1,20 +1,21 @@
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
 
-        curr = None
-        vote = 0
+        cnt = 0
+        curr_val = nums[0]
 
-        for i in range(len(nums)):
+        for n in nums:
 
-            if vote == 0:
-                curr = nums[i]
-                vote+=1
+            if cnt == 0:
+                cnt = 1
+                curr_val = n
 
-            elif nums[i] == curr:
-                vote+=1
+            elif n == curr_val:
+                cnt+=1
             else:
-                vote-=1
+                cnt-=1
 
-        return curr
-
+        return curr_val
                 
+        
+        
