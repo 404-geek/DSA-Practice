@@ -4,36 +4,28 @@ class Solution:
         Do not return anything, modify nums in-place instead.
         """
 
-        i = len(nums) - 1 
+        def reverse(l, r):
 
-        while i > 0 and nums[i-1] >= nums[i]:
-            i-=1
-
-        if i > 0:
-            pivot = i - 1
-
-            j = len(nums) - 1
-            while nums[j] <= nums[pivot]:
-                j -= 1
-            nums[pivot], nums[j] = nums[j], nums[pivot] 
+            while l < r:
+                nums[l], nums[r] = nums[r], nums[l]
+                l+=1
+                r-=1
         
-        left, right = i, len(nums) - 1
-        while left < right:
-            nums[left], nums[right] = nums[right], nums[left]
-            left += 1
-            right -= 1
+        n = len(nums)
+        br = -1
 
+        for i in range(n-2, -1, -1):
 
-        return nums
+            if nums[i] < nums[i+1]:
+                br = i
+                break
 
+        if br == -1:
+            return nums.reverse()
 
+        for j in range(n -1, br , -1):
+            if nums[j] > nums[br]:
+                nums[br], nums[j] = nums[j], nums[br]
+                break
 
-
-
-
-        
-
-
-
-
-        
+        reverse(br + 1, n - 1)
