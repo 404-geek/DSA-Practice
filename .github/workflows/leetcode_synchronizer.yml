@@ -1,11 +1,9 @@
-# .github/workflows/leetcode_synchronizer.yml
-
-name: LeetCode Synchronizer
+name: Sync Leetcode
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: "55 3 * * *" # daily at 5 AM UTC
+    - cron: "55 3 * * *"
 
 permissions:
   contents: write
@@ -14,9 +12,9 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Run LeetCode Synchronizer
+      - name: Sync LeetCode submissions
         uses: joshcai/leetcode-sync@v1.7
         with:
-          GITHUB_TOKEN: ${{ github.token }}
-          LEETCODE_SESSION: ${{ secrets.LEETCODE_SESSION }}
-          LEETCODE_CSRF_TOKEN: ${{ secrets.LEETCODE_CSRF_TOKEN }}
+          github-token: ${{ github.token }}
+          leetcode-csrf-token: ${{ secrets.LEETCODE_CSRF_TOKEN }}
+          leetcode-session: ${{ secrets.LEETCODE_SESSION }}
