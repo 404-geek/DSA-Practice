@@ -1,0 +1,22 @@
+# .github/workflows/leetcode_synchronizer.yml
+
+name: LeetCode Synchronizer
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 5 * * *" # daily at 5 AM UTC
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run LeetCode Synchronizer
+        uses: dos-m0nk3y/LeetCode-Synchronizer@v1.1.0
+        with:
+          GITHUB_TOKEN: ${{ github.token }}
+          LEETCODE_SESSION: ${{ secrets.LEETCODE_SESSION }}
+          LEETCODE_CSRF_TOKEN: ${{ secrets.LEETCODE_CSRF_TOKEN }}
