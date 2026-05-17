@@ -3,23 +3,20 @@ class Solution:
 
         res = [[1]]
 
-        for i in range(2, numRows + 1):
+        for i in range(1, numRows):
 
-            temp = res[-1]
-            f = [1]
+            m = res[-1]
 
-            t = len(temp)
+            temp = [1]
 
-            for j in range(1, t):
+            for i in range(1, len(m)):
 
-                s = f[-1] + j
-                f.append(temp[j-1] + temp[j])
+                temp.append(m[i] + m[i-1])
 
-            f.append(1)         
-            
-            res.append(f)
-        
+            temp.append(1)
+
+            res.append(temp)
+
         return res
 
-
-
+        
