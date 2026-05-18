@@ -1,45 +1,41 @@
 class Solution:
     def myAtoi(self, s: str) -> int:
 
-        def recurse(i, num):
-
-            if i == n or not s[i].isdigit():
-                return num
-
-            return recurse(i+1, num * 10 + int(s[i]))
-        
-        i = 0
         n = len(s)
+        sign = 1
+        i = 0
+        res = 0
+        MIN_I = - 2 ** 31
+        MAX_I = (2 ** 31) - 1
+
+        if not s:
+            return 0
 
         while i < n and s[i] == " ":
-            i += 1
+                i+=1
 
-        sign = 1
         if i < n and s[i] in "+-":
             if s[i] == "-":
                 sign = -1
-            i += 1
-
-        num = 0
-
-        # num = recurse(i, num)
-
-        while i < n and s[i].isdigit():
-
-            num = num * 10 + int(s[i])
             i+=1
 
-        num *= sign
+        print(i)
+        while i < n and s[i].isdigit():
+            res = res* 10 + int(s[i])
+            val = sign * res
 
-        INT_MIN = -2**31
-        INT_MAX = 2**31 - 1
+            if val < MIN_I:
+                return MIN_I
+            if val > MAX_I:
+                return MAX_I
 
-        if num < INT_MIN:
-            return INT_MIN
-        if num > INT_MAX:
-            return INT_MAX
+            i += 1
 
-        return num
+        return sign * res
+
+
+
+
         
-              
+
         
