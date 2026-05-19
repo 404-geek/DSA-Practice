@@ -2,40 +2,28 @@ class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
 
         res = []
+        candidates.sort()
         n = len(candidates)
 
-        def traverse(i, su, arr):
+        def find_target(path, i, su):
 
-            if su == 0:
-                res.append(arr[:])
-                return
-            
-            if i == n:
+            if su == target:
+                res.append(path[:])
                 return
 
-            if candidates[i] <= su:
-                arr.append(candidates[i])
-                traverse(i, su - candidates[i], arr)
-                arr.pop()
+            if i == n or su > target:
+                return
 
-            traverse(i+1, su, arr)
+            if su + candidates[i] > target:
+                return
 
-
-        traverse(0, target, [])
+            path.append(candidates[i])
+            find_target(path, i, su + candidates[i])
+            path.pop()
+            find_target(path, i+ 1, su)
+        
+        find_target([], 0, 0)
 
         return res
 
-
-
-
-        
-
-
-
-        
-
-
-
-
-        
         
