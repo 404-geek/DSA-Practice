@@ -9,17 +9,20 @@ class Solution:
 
         def backtrack(i, path):
 
-            res.append(path[:])
+            if i == x:
+                res.append(path[:])
+                return
 
-            for n in range(i, x):
+            path.append(nums[i])
+            backtrack(i+1, path)
+            path.pop()
 
-                if n > i and nums[n] == nums[n-1]:
-                    continue
+            j = i+1
 
-                path.append(nums[n])
-                backtrack(n+1, path)
-                path.pop()
-\
+            while j < x and nums[j] == nums[i]:
+                j+=1       
+
+            backtrack(j, path)
 
         backtrack(0,[])
 
