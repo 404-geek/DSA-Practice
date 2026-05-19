@@ -1,24 +1,27 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
 
-        k = n * 2
         res = []
-        
-        def gen_formed(path, o_cnt, c_ont):
 
-            if len(path) == k:
+        def gen(path, i, l , r):
+
+            if i == 2 * n and l == r:
                 res.append("".join(path))
+                return
+            
+            if l < n:
 
-            if o_cnt < n:
                 path.append("(")
-                gen_formed(path, o_cnt+1, c_ont)
+                gen(path, i + 1, l+1, r)
                 path.pop()
 
-            if c_ont < o_cnt:
+            if r < l:
+
                 path.append(")")
-                gen_formed(path, o_cnt, c_ont+1)
+                gen(path, i + 1,  l, r+1)
                 path.pop()
 
-        gen_formed([], 0, 0)
+
+        gen([], 0, 0,0)
 
         return res
