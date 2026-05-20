@@ -1,54 +1,41 @@
 class Solution:
     def addOperators(self, num: str, target: int) -> List[str]:
-
-        res = []
-        n = len(num)
         
-        def traverse(i, path, t, prev):
+        n = len(num)
+        res = []
 
-            if i == n and t == target:
-                res.append("".join(path))
+        def traverse(i, path, su, prev):
+            if i == n:
+                if su == target:
+                    res.append(path)
                 return
 
             for j in range(i, n):
+                
+                st = num[i:j+1]
 
-                curr_str = num[i:j+1]
-
-                if len(curr_str) > 1 and curr_str[0] == "0":
+                if j-i+1 > 1 and st[0] == "0":
                     break
 
-                curr = int(num[i:j+1])
+                val = int(st)
 
-                path.append("+")
-                path.append(curr_str)
-                traverse(j+1, path, t + curr, curr)
-                path.pop()
-                path.pop()
+                traverse(j+1, path + "+" + st, su + val, val)
+                traverse(j+1,  path + "-" + st, su - val, -val)
+                traverse(j+1, path + "*" + st, (val * prev) + (su - prev),  prev * val)
+        
 
-                path.append("-")
-                path.append(curr_str)
-                traverse(j+1, path, t - curr, -curr)
-                path.pop()
-                path.pop()
-
-                path.append("*")
-                path.append(curr_str)
-                traverse(j+1, path, prev * curr + t - prev, prev * curr)
-                path.pop()
-                path.pop()
-
-        for j in range(0, n):
-            curr_str = num[0:j+1]
-
-            if len(curr_str) > 1 and curr_str[0] == "0":
+        for i in range(1,n+1):
+            st = num[:i]
+            
+            if i > 1 and st[0] == "0":
                 break
 
-            curr = int(curr_str)
-            traverse(j + 1, [curr_str], curr, curr)
+            val = int(st)
+            traverse(i, st, val, val)
 
         return res
 
 
 
+                
 
-        
