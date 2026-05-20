@@ -1,41 +1,43 @@
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
 
-        row = len(board)
-        col = len(board[0])
+        rows = len(board)
+        cols = len(board[0])
+        n = len(word)
 
-        start = word[0]
+        def traverse(r,c, i):
 
-        l_word = len(word)
-
-        move = [[0,-1], [0,1], [1,0], [-1,0]]
-        
-
-        def traverse(r,c, l, vis):
-
-            if l == l_word - 1:
+            if i == n - 1:
                 return True
 
-            vis.add((r,c))
+            a = board[r][c]
 
-            for i , j in move:
+            board[r][c] = '#'
 
-                nr = i + r
-                nc = j + c
+            moves = [(0,-1), (0,1), (1,0), (-1,0)]
 
-                if 0 <= nr < row and 0 <= nc < col and (nr,nc) not in vis and board[nr][nc] == word[l+1]:
-                    if traverse(nr,nc, l+1, vis):
+            for p, q in moves:
+
+                nr = r + p
+                nc = c + q
+
+                if 0 <= nr < rows and 0 <= nc < cols and board[nr][nc] == word[i+1]:
+                    if traverse(nr, nc, i+1):
+                        board[r][c] = a
                         return True
 
-            vis.remove((r,c))
+            board[r][c] = a
 
             return False
 
+        i = 0
 
-        for r in range(row):
-            for c in range(col):
-                if board[r][c] == start:
-                    if traverse(r,c,0, set()):
+        for r in range(rows):
+            for c in range(cols):
+                if board[r][c] == word[i]:
+                    if traverse(r, c, i):
                         return True
-
+        
         return False
+            
+        
