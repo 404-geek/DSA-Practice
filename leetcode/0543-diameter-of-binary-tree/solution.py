@@ -7,24 +7,22 @@
 class Solution:
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
 
-        maxi = 0
-        
-        def find_max(root):
+        ans = 0
 
-            nonlocal maxi
+        def dfs(node):
 
-            if not root:
+            nonlocal ans
+
+            if not node:
                 return 0
 
-            lh = find_max(root.left)
-            rh = find_max(root.right)
+            left = dfs(node.left)
+            right = dfs(node.right)
 
-            maxi = max(maxi , lh + rh)
+            ans = max(ans, left + right)
 
-            return 1 + max(lh, rh)
+            return 1 + max(left, right)
 
-        find_max(root)
+        dfs(root)
 
-        return maxi
-
-
+        return ans
