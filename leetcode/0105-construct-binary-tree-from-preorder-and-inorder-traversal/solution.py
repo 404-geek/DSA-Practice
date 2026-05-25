@@ -10,28 +10,19 @@ class Solution:
         if not preorder or not inorder:
             return None
 
-        r = preorder[0]
+        root = preorder[0]
+        node = TreeNode(root)
 
-        root = TreeNode(r)
+        ind = inorder.index(root)
 
-        idx = inorder.index(r)
+        inord_l = inorder[:ind]
+        inord_r = inorder[ind+1:]
 
-        left_in = inorder[:idx]
-        right_in = inorder[idx + 1:]
+        preord_l = preorder[1:ind+1]
+        preord_r = preorder[1+ind:]
 
-        left_size = len(left_in)
+        node.left = self.buildTree(preord_l, inord_l)
+        node.right = self.buildTree(preord_r, inord_r)
 
-        left_pre = preorder[1: 1+ left_size]
-        right_pre = preorder[1 + left_size :]
-
-        root.left = self.buildTree(left_pre, left_in)
-        root.right = self.buildTree(right_pre, right_in)
-
-        return root
-
-
-
-        
-
-
+        return node
         
