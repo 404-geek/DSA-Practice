@@ -7,34 +7,35 @@
 class Solution:
     def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
 
-        map = defaultdict(list)
+        if not root:
+            return []
 
-        q = Deque([(root,0, 0)])
+        nodes = []
+
+        q = deque([(root,0, 0)])
 
         while q:
-            
-            a = len(q)
 
-            for _ in range(a):
+            node, p, l = q.popleft()
 
-                no, row, co = q.popleft()
+            nodes.append((p, l, node.val))
 
-                map[co].append((row, no.val))
+            if node.left:
+                q.append((node.left, p - 1, l+1))
 
-                if no.left:
-                    q.append((no.left, row + 1, co - 1))
+            if node.right:
+                q.append((node.right, p + 1, l+1))
 
-                if no.right:
-                    q.append((no.right, row + 1, co + 1))
-
+        nodes.sort()
         res = []
+        prev_col = None
+        for p, _, vals in nodes:
 
-        for col in sorted(map):
-            val = map[col]
+            if p != prev_col:
+                res.append([])
+            prev_col = p
 
-            val.sort()
-
-            res.append([v for row, v in val])
+            res[-1].append(vals)
 
         return res
 
@@ -42,3 +43,5 @@ class Solution:
 
 
 
+
+        
