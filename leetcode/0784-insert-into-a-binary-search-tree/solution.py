@@ -12,19 +12,23 @@ class Solution:
 
         a = root
 
-        while root:
+        while True:
 
-
-            if val > root.val:
-                if root.right is None:
+            if root.val < val:
+                if root.right:
+                    root = root.right
+                else:
                     root.right = TreeNode(val)
-                    return a
-                root = root.right
+                    break
 
             else:
-                if root.left is None:
+                if root.left:
+                    root = root.left
+                else:
                     root.left = TreeNode(val)
-                    return a
-                root = root.left
+                    break
 
-        
+        return a
+            
+
+            
