@@ -23,10 +23,10 @@ class Solution:
                 index-=first_index
 
                 if node.left:
-                    q.append((node.left, 2* index+1))
+                    q.append((node.left, 2* index))
                 
                 if node.right:
-                    q.append((node.right , 2* index + 2))
+                    q.append((node.right , 2* index + 1))
 
             wid = max(wid, index+1)
 
