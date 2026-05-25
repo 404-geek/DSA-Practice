@@ -8,60 +8,48 @@
 class Solution:
     def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
 
-        if not root:
-            return []
-
         map = {}
-        q = deque([(root)])
+
+        q = deque([root])
 
         while q:
 
-            for _ in range(len(q)):
+            node = q.popleft()
 
-                a = q.popleft()
-
-                if a.left:
-                    q.append(a.left)
-                    map[a.left] = a
-                if a.right:
-                    q.append(a.right)
-                    map[a.right] = a
-
-        q.append((target, 0))
-        vis = {target}
+            if node.left:
+                map[node.left] = node
+                q.append(node.left)
+            
+            if node.right:
+                map[node.right] = node
+                q.append(node.right)
 
         res = []
+        vis = set([target])
+        q.append((0,target))
+        d = 0
 
-        def move(q):
+        while q:
 
-            while q:
+            d, node = q.popleft()
 
-                n, dis = q.popleft()
+            if d == k:
+                res.append(node.val)
+                continue
 
-                if dis == k:
-                    res.append(n.val)
-                    continue
-
-                if n in map and map[n] not in vis:
-                    q.append((map[n], dis + 1))
-                    vis.add(map[n])
-
-                if n.left and n.left not in vis:
-                    q.append((n.left, dis + 1))
-                    vis.add(n.left)
-
-                if n.right and n.right not in vis:
-                    q.append((n.right, dis + 1))
-                    vis.add(n.right)
-
-        move(q)
+            for nei in (node.left, node.right, map.get(node)):
+                if nei and nei not in vis:
+                    vis.add(nei)
+                    q.append((d+1, nei))
 
         return res
-                    
+            
+            
 
-                
+
 
         
 
+            
 
-
+        
