@@ -9,38 +9,24 @@ class Solution:
         """
         Do not return anything, modify root in-place instead.
         """
-        def traverse(root, prev):
+        prev = None
+        
+        def flat(root):
+
+            nonlocal prev
 
             if not root:
-                return prev
+                return
 
-            prev = traverse(root.right, prev)
-            prev = traverse(root.left, prev)
+            flat(root.right)
+            flat(root.left)
 
             root.right = prev
             root.left = None
 
-            return root
+            prev = root
 
-        traverse(root, None)
+        flat(root)
 
-
-
+        return root
         
-        
-
-
-
-
-
-
-
-
-        
-
-        
-         
-
-
-        
-
