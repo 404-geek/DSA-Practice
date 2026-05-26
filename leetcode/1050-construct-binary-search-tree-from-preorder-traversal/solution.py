@@ -7,34 +7,21 @@
 class Solution:
     def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
 
+        i = 0
         n = len(preorder)
 
-        root = TreeNode(preorder[0])
+        def bounds(up):
 
-        for i in range(1,n):
+            nonlocal i
 
-            val = preorder[i]
-            curr = root
+            if i >= n or preorder[i] > up:
+                return None
 
-            while curr:
-                if val < curr.val:
-                    if not curr.left:
-                        curr.left = TreeNode(val)
-                        break
-                    curr = curr.left
-                
-                if val > curr.val:
-                    if not curr.right:
-                        curr.right = TreeNode(val)
-                        break
-                    curr = curr.right
+            root = TreeNode(preorder[i])
+            i+=1
+            root.left = bounds(root.val)
+            root.right = bounds(up)
 
-        return root
+            return root
 
-            
-                    
-
-
-
-                 
-        
+        return bounds(float("inf"))
