@@ -3,24 +3,22 @@ def differ_by_insertion(str1, str2):
     str1 = str1.split(" ")
     str2 = str2.split(" ")
 
-    l = len(str1)
-    m = len(str2)
-    sm = max(l,m)
-    sh = min(l,m)
+    if len(str1) > len(str2):
+        str2 , str1 = str1, str2
 
-    for i in range(sm):
+    n = len(str1)
 
-        if str1[i] != str2[i]:
-            break
-    
-    for j in range(1, sm):
-        if str1[-j] != str2[-j]:
-            break
+    i = 0
 
-    if len(str1[:i]) + len(str1[i:j]) == sh:
-        return True
-    else:
-        return False
+    while i < n and str1[i] == str2[i]:
+        i+=1
+
+    j = 0
+
+    while j < n - i and str1[-1-j] == str2[-1-j]:
+        j+=1
+
+    return i + j == len(str1)
 
 
 print(differ_by_insertion("a b", "a b"))
