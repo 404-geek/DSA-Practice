@@ -1,21 +1,24 @@
 class Solution:
     def rob(self, nums: List[int]) -> int:
+
+        if len(nums) <= 2:
+            return max(nums)
+
+        def robr(nums):
+
+            n = len(nums)
+
+            prev1 = nums[0]
+            prev2 = max(prev1, nums[1])
+
+            for i in range(2, n):
+
+                curr = max(prev2, nums[i] + prev1)
+                prev1 = prev2
+                prev2 = curr
+                
+            return prev2
+
+        return max(robr(nums[1:]),  robr(nums[:-1]))
         
-        def linear(arr):
-            rob, not_rob = 0,0
-
-            for i in arr:
-
-                new_rob = not_rob + i
-
-                not_rob = max(rob, not_rob)
-
-                rob = new_rob
-
-            return max(rob, not_rob)
-
-        if len(nums) == 1:
-
-            return nums[0]
-
-        return max(linear(nums[:-1]), linear(nums[1:]))
+        
