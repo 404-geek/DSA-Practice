@@ -3,24 +3,26 @@ class Solution:
 
         nums.sort()
 
+        n = len(nums)
+        tot = 0
         i = 0
-        total = 0
-        ans = 0
+        max_freq = 0
 
-        for n in range(len(nums)):
+        for j in range(n):
+ 
+            tot += nums[j]
 
-            total += nums[n]
+            while (j - i + 1) * nums[j] - tot > k:
 
-            while nums[n] * (n - i + 1) - total > k:
-
-                total -= nums[i]
+                tot -= nums[i]
 
                 i+=1
 
-            ans = max(ans, n - i + 1)
+            max_freq = max(j - i + 1, max_freq)
 
-        return ans
+        return max_freq
 
             
-        
 
+
+        
