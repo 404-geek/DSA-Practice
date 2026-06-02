@@ -11,8 +11,8 @@ class Solution:
                     r = mid
             return l
 
-        def find_last():
-            l, r = 0, len(nums)
+        def find_last(l):
+            r = len(nums)
             while l < r:
                 mid = (l + r) // 2
                 if nums[mid] <= target:
@@ -26,5 +26,5 @@ class Solution:
         if first == len(nums) or nums[first] != target:
             return [-1, -1]
 
-        last = find_last()
+        last = find_last(first)
         return [first, last]
