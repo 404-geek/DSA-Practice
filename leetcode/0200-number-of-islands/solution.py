@@ -9,10 +9,10 @@ class Solution:
 
         def dfs(r,c):
 
-            if (r,c) in vis:
+            if grid[r][c] == "#":
                 return
 
-            vis.add((r,c))
+            grid[r][c] = "#"
 
             moves = [[0,-1], [0,1], [1,0], [-1,0]]
 
@@ -26,7 +26,7 @@ class Solution:
 
         for r in range(rows):
             for c in range(cols):
-                if grid[r][c] == "1" and (r,c) not in vis:
+                if grid[r][c] == "1":
                     dfs(r,c)
                     cnt+=1
 
