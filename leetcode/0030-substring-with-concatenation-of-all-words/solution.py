@@ -1,45 +1,48 @@
 class Solution:
     def findSubstring(self, s: str, words: List[str]) -> List[int]:
 
-        words_cnt = Counter(words)
-        stats = defaultdict(int)
-        
-        k = len(words[0]) 
-        total = k * len(words)
+        l = len(words[0])
+        word_freq = Counter(words)
+        w = len(words)
+        n = len(s)
 
         res = []
 
-        for start in range(k):
 
-            left = right = start
-            word_counter = Counter()
+        for offset in range(l):
 
-            while right + k <= len(s):
+            left = offset
 
-                word = s[right:right + k]
-                right+=k
+            curr = defaultdict(int)
+            count = 0
 
-                if word not in words_cnt:
-                    word_counter.clear()
-                    left = right
-                    continue
-                
-                word_counter[word]+=1
+            for j in range(offset, n - l + 1, l):
 
-                while word_counter[word] > words_cnt[word]:
-                    removed_word = s[left:left+k]
+                word = s[j : j+l]
 
-                    left+=k
-                    word_counter[removed_word]-=1
+                if word in word_freq:
 
-                if right - left == total:
-                    res.append(left)
+                    curr[word]+=1
+                    count+=1
+
+                    while curr[word] > word_freq[word]:
+                        left_word = s[left:left + l]
+                        curr[left_word] -=1
+                        count-=1
+                        left +=  l
+
+                    if count == w:
+
+                        res.append(left)
+                        left_word = s[left:left + l]
+                        curr[left_word] -=1
+                        count-=1
+                        left +=  l
+
+                else:
+                    curr.clear()
+                    count=0
+                    left = j + l
 
         return res
-
-            
-
-
-
-
-
+        
