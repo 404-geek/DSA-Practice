@@ -1,24 +1,40 @@
 class Solution:
     def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
 
-        times = sorted(zip(startTime, endTime, profit))
+        jobs = []
+        max_p = 0
+        starts = []
 
-        n = len(times)
-        dp = [0] * (n+1)
+        for s, e, p in zip(startTime, endTime, profit):
 
-        for i in range(n-1, -1, -1):
+            jobs.append((s, e, p))
 
-            _, end, prof = times[i]
+        jobs.sort()
 
-            insert_pos = bisect_left(times, end, lo = i+1, key = lambda x:x[0])
+        for s, e, p in jobs:
+            starts.append(s)
 
-            dp[i] = max(dp[i+1], prof + dp[insert_pos])
+        n = len(jobs)
+
+        dp = [0] * n
+
+        dp[-1] = jobs[-1][-1]
+
+        for i in range(n - 2, -1, -1):
+
+            job = jobs[i]
+
+            end = job[1]
+            profit = job[2]
+
+            idx = bisect_left(starts, end)
+
+            if idx < n:
+                profit += dp[idx]
+
+            skip = dp[i + 1]
+            dp[i] = max(profit, skip)
 
         return dp[0]
 
 
-
-
-
-
-        
