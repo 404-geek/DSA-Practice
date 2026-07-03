@@ -8,7 +8,6 @@ class Solution:
         status = [0] * numCourses
         ans = []
 
-        print(adj)
         def track(i):
 
             if status[i] == 1:
@@ -28,6 +27,13 @@ class Solution:
             return True
 
         for n in range(numCourses):
+            
+            if status[n] == 1:
+                return False
+            
+            if status[n] == 2:
+                continue
+        
             if not track(n):
                 return []
 
