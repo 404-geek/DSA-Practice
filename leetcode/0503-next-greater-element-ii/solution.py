@@ -6,17 +6,20 @@ class Solution:
 
         stack = []
 
-        for n in range(2 * n_len):
+        for n in range(2 * n_len - 1, -1, -1):
 
             val = nums[n % n_len]
 
-            while stack and val > nums[stack[-1]]:
-                ix = stack.pop()
-                ans[ix] = val
-            
-            if n < n_len:
-                stack.append(n)
+            while stack and val >= stack[-1]:
+                stack.pop()
 
-        return ans            
+            if stack and n < n_len:
+                ans[n] = stack[-1]
+
+            stack.append(val)
+
+        return ans
+    
+                      
 
         
