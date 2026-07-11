@@ -16,19 +16,14 @@ class Solution:
             if not root:
                 return 0
 
-            a = find_sum(root.left)
-            b = find_sum(root.right)
+            a = max(0, find_sum(root.left))
+            b = max(0, find_sum(root.right))
 
-            v = max(root.val, root.val + a, root.val + b)
+            su = max(su, root.val + a + b)
 
-            su = max(su, v, root.val + a + b)
+            return root.val + max(a, b)
 
-            if v < 0:
-                return 0
-
-            return v
-
-        find_sum(root)
+        find_sum(root) 
 
         return su
 
