@@ -1,28 +1,28 @@
 class Solution:
     def isValid(self, s: str) -> bool:
-
-
-        stack = []
-        match = {
-            ')': '(',
-            '}': '{',
-            ']': '['
+        
+        map = {
+            '(' : ')',
+            '{' : '}',
+            '[' : ']',
         }
+        
+        stack = []
 
+        for par in s:
 
-        for ch in s:
-            if ch in match:
-                if not stack or stack.pop() != match[ch]:
-                    return False
+            if par in map:
+
+                stack.append(par)
+            
             else:
-                stack.append(ch)
+                if not stack:
+                    return False
 
+                if map[stack[-1]] != par:
+                    return False
 
-        
-        if stack:
-            return False
-        else:
-            return True            
+                stack.pop()
 
-
-        
+        return not stack
+                
