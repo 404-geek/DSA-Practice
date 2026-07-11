@@ -1,31 +1,42 @@
 class Solution:
     def restoreIpAddresses(self, s: str) -> List[str]:
         res = []
+
+        n = len(s)
         
         def is_valid(num):
-            if not num:
-                return False
             if len(num) > 1 and num[0] == '0':
                 return False
 
             return int(num) <= 255
 
-        def backtrack(s, groups, path):
+        def backtrack(i, groups, path):
 
-            if groups == 4:
-                if s == "":
-                    res.append(".".join(path))
-                return 
+            if groups == 4 and i == n:
+                res.append(".".join(path))
+                return
 
-            for i in range(1,4):
-                if i <= len(s):
-                    part = s[:i]
+            remaining_digits = n - i
+            remaining_groups = 4 - groups
 
-                    if is_valid(part):
-                        path.append(part)
-                        backtrack(s[i:], groups + 1, path)
-                        path.pop()
+            if remaining_digits < remaining_groups:
+                return
 
-        backtrack(s, 0, [])
+            if remaining_digits > remaining_groups * 3:
+                return
+
+
+            for j in range(i+1, i + 4):
+
+                if j > n:
+                    return
+
+                part = s[i:j]
+
+                if is_valid(part):
+                    backtrack(j, groups + 1, path + [part])
+
+        backtrack(0, 0, [])
+        
         return res
 
