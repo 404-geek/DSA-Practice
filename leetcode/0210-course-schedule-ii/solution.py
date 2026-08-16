@@ -1,49 +1,42 @@
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
 
-        adj = defaultdict(list)
-        for a, b in prerequisites:
-            adj[b].append(a)
+        adj = [[] for _ in range(numCourses)]
+        
+        for a,b in prerequisites:
+            
+            adj[a].append(b)
 
-        status = [0] * numCourses
-        ans = []
+        res = []
+        vis = [0] * numCourses
 
-        def track(i):
+        def dfs(node):
 
-            if status[i] == 1:
+            if vis[node] == 1:
                 return False
-            if status[i] == 2:
+
+            if vis[node] == 2:
                 return True
 
-            status[i] = 1
+            vis[node] = 1
 
-            for k in adj[i]:
-                if not track(k):
+            for nei in adj[node]:
+
+                if not dfs(nei):
                     return False
-            
-            status[i] = 2
-            ans.append(i)
+
+            vis[node] = 2
+
+            res.append(node)
 
             return True
 
-        for n in range(numCourses):
-            
-            if status[n] == 1:
-                return False
-            
-            if status[n] == 2:
-                continue
-        
-            if not track(n):
+        for i in range(numCourses):
+            if vis[i] == 0 and not dfs(i):
                 return []
 
-        return ans[::-1]
-
-
-
-
+        return res
 
         
 
             
-        
