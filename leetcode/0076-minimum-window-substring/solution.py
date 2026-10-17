@@ -1,39 +1,57 @@
-from collections import Counter
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
+        
+        cnt_t = Counter(t)
 
-        n_map = Counter(t)
-        need = len(n_map)
-        n = len(s)
-        have = 0
+        m = len(s)
 
-        ans = ""
-
-        res = defaultdict(int)
+        req = len(cnt_t)
 
         i = 0
 
-        for j in range(n):
+        curr_dict = {}
+        ongoing = 0
+        
+        min_len = float('inf')
+        word = ""
 
-            res[s[j]] += 1
+        for j in range(m):
 
-            if s[j] in n_map and res[s[j]] == n_map[s[j]]:
-                have+=1
+            ch = s[j]
+
+            if ch in curr_dict:
+                curr_dict[ch] += 1
+            else:
+                curr_dict[ch] = 1
+
+            if ch in cnt_t and curr_dict[ch] == cnt_t[ch]:
+                ongoing+=1
+
+            while ongoing == req:
+
+                if j - i + 1 < min_len:
+
+                    min_len = j-i+1
+
+                    word = s[i:j+1]
                 
-            while have == need:
+                curr_dict[s[i]]-=1
 
-                if ans == "" or j - i + 1 < len(ans):
-                    ans = s[i : j + 1]
-                
-                res[s[i]]-=1
-                if s[i] in n_map and res[s[i]] < n_map[s[i]]:
-                    have-=1
+                if s[i] in cnt_t and curr_dict[s[i]] < cnt_t[s[i]]:
+                    ongoing-=1
+
                 i+=1
 
-        return ans
-
-
-
+        return word
 
         
-        
+
+                 
+
+                
+
+
+
+
+
+            
